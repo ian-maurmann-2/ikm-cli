@@ -9,7 +9,7 @@
  * -------------------
  *
  * Background:
- * Based on the CLI Writer that I made for Pith Framework, but this one will be more general use and MIT Licensed.
+ * Based on the CLI Writer that I made for Pith Framework, but this one will be more general-use and MIT Licensed.
  *
  * @noinspection PhpPropertyNamingConventionInspection - Short property names are ok.
  * @noinspection PhpMethodNamingConventionInspection   - Long method names are ok.
