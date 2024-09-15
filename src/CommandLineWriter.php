@@ -78,6 +78,11 @@ class CommandLineWriter
         }
     }
 
+    public function clearScreen(): void
+    {
+        $this->write("\033[2J\033[H");
+    }
+
     /**
      * @return array
      */

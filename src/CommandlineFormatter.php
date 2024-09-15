@@ -70,6 +70,10 @@ class CommandLineFormatter
     public string $bg_bright_cyan    = "\033[106m";
     public string $bg_bright_white   = "\033[107m";
 
+    // Terminal Control
+    public string $terminal_clear       = "\033[2J";
+    public string $terminal_cursor_home = "\033[H";
+
     public function __construct()
     {
         // Set object dependencies:
