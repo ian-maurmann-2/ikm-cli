@@ -1,0 +1,22 @@
+{
+    "name": "ikm/cli",
+    "description": "CLI formatting tools",
+    "authors": [
+        {
+            "name": "Ian Maurmann",
+            "role": "Developer"
+        }
+    ],
+    "license": "MIT",
+    "require": {
+        "php": "^8.3",
+        "ext-readline": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "IKM\\CLI\\": [
+                "src/"
+            ]
+        }
+    }
+}
