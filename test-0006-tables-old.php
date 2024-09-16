@@ -77,7 +77,11 @@ $table_data = [
     'columns_highlight_1_bright_cyan' => ['kind_of_animal'],
 ];
 
+$writer->hr();
+
 $table_builder->buildTableOld($table_data);
+
+$writer->hr();
 
 
 

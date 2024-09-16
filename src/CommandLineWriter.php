@@ -28,11 +28,12 @@ namespace IKM\CLI;
 class CommandLineWriter
 {
     private array $writes;
+    private \IKM\CLI\TerminalUtility $terminal_utility;
 
     public function __construct()
     {
         // Set object dependencies:
-        // Do nothing for now.
+        $this->terminal_utility = new TerminalUtility();
 
         // Set defaults:
         $this->writes = [];
@@ -89,6 +90,21 @@ class CommandLineWriter
     /**
      * Break row
      */
+    public function hr(): void
+    {
+        $width = $this->terminal_utility->getTerminalWidth();
+
+        $hr = str_repeat('─', $width);
+
+
+
+
+        $this->write("$hr\n");
+    }
+
+    /**
+     * Break row
+     */
     public function br(): void
     {
         $this->write("\n");
@@ -101,4 +117,6 @@ class CommandLineWriter
     {
         return $this->writes;
     }
+
+
 }
