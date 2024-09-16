@@ -78,9 +78,20 @@ class CommandLineWriter
         }
     }
 
+    /**
+     * Clear the screen
+     */
     public function clearScreen(): void
     {
         $this->write("\033[2J\033[H");
+    }
+
+    /**
+     * Break row
+     */
+    public function br(): void
+    {
+        $this->write("\n");
     }
 
     /**
