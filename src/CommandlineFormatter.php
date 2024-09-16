@@ -6,7 +6,7 @@
 
 /**
  * Command-Line Formatter
- * ---------------
+ * ----------------------
  *
  * Background:
  * Based on the CLI Format utility that I made for Pith Framework, but this one will be more general-use and MIT Licensed.
