@@ -15,7 +15,8 @@
     "autoload": {
         "psr-4": {
             "IKM\\CLI\\": [
-                "src/"
+                "src/",
+                "src/utilities"
             ]
         }
     }

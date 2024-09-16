@@ -35,11 +35,13 @@ use Exception;
 class CommandLineTableBuilder
 {
     private \IKM\CLI\CommandLineWriter $cli_writer;
+    private \IKM\CLI\StringUtility $string_utility;
 
     public function __construct()
     {
         // Set object dependencies:
         $this->cli_writer = new \IKM\CLI\CommandLineWriter();
+        $this->string_utility = new \IKM\CLI\StringUtility();
     }
 
 
@@ -190,7 +192,7 @@ class CommandLineTableBuilder
                     $cell_sub_line_text = str_replace("\t",'    ', $cell_sub_line_text);
 
 
-                    $line                = $this->mb_str_pad($cell_sub_line_text, $col_lengths[$col_index], ' ', $cell_text_align);
+                    $line                = $this->string_utility->mb_str_pad($cell_sub_line_text, $col_lengths[$col_index], ' ', $cell_text_align);
                     $last_sub_line_index = count($cell_sub_lines) - 1;
 
                     if($current_sub_line < $last_sub_line_index){
@@ -258,7 +260,7 @@ class CommandLineTableBuilder
                 $cell_text            = (string) $cell;
                 $cell_lines           = explode("\n", $cell_text);
                 $cell_height          = mb_substr_count($cell_text, "\n");
-                $escapes              = $this->getCliFormattingEscapes();
+                $escapes              = $this->string_utility->getCliFormattingEscapes();
                 $cell_lines_clean     = str_replace($escapes, "", $cell_lines);// Remove escapes
                 $cell_lines_clean     = str_replace(["\n", '{', '}'], "", $cell_lines_clean);// Remove braces
                 $cell_lines_clean     = str_replace("\t",'    ', $cell_lines_clean); // Replace tabs with 4 spaces
@@ -281,102 +283,5 @@ class CommandLineTableBuilder
             'row_heights' => $row_heights,
         ];
     }
-
-
-    /**
-     * From: https://gist.github.com/rquadling/c9ff12755fc412a6f0d38f6ac0d24fb1
-     * See: https://gist.github.com/nebiros/226350
-     *
-     * Multibyte String Pad
-     *
-     * Functionally, the equivalent of the standard str_pad function, but is capable of successfully padding multibyte strings.
-     *
-     * @param string $input The string to be padded.
-     * @param int $length The length of the resultant padded string.
-     * @param string $padding The string to use as padding. Defaults to space.
-     * @param int $padType The type of padding. Defaults to STR_PAD_RIGHT.
-     * @param string $encoding The encoding to use, defaults to UTF-8.
-     *
-     * @return string A padded multibyte string.
-     */
-    private function mb_str_pad(string $input,int $length, string $padding = ' ', int $padType = STR_PAD_RIGHT, string $encoding = 'UTF-8')
-    {
-        $result          = $input;
-        $escapes         = $this->getCliFormattingEscapes();
-        $input_clean     = str_replace($escapes, '', $input); // Remove escapes
-        $input_clean     = str_replace(["\n", '{', '}'], '', $input_clean); // Remove braces
-        $input_clean     = str_replace("\t",'    ', $input_clean); // Replace tabs with 4 spaces
-        $paddingRequired = $length - grapheme_strlen($input_clean);
-
-        if ($paddingRequired > 0) {
-            switch ($padType) {
-                case STR_PAD_LEFT:
-                    $result =
-                        mb_substr(str_repeat($padding, (int) $paddingRequired), 0, (int) $paddingRequired, $encoding).
-                        $input;
-                    break;
-                case STR_PAD_RIGHT:
-                    $result =
-                        $input.
-                        mb_substr(str_repeat($padding, (int) $paddingRequired), 0, (int) $paddingRequired, $encoding);
-                    break;
-                case STR_PAD_BOTH:
-                    $leftPaddingLength = floor($paddingRequired / 2);
-                    $rightPaddingLength = $paddingRequired - $leftPaddingLength;
-                    $result =
-                        mb_substr(str_repeat($padding, (int) $leftPaddingLength), 0, (int) $leftPaddingLength, $encoding).
-                        $input.
-                        mb_substr(str_repeat($padding, (int) $rightPaddingLength), 0, (int) $rightPaddingLength, $encoding);
-                    break;
-            }
-        }
-
-        return $result;
-    }
-
-
-    public function getCliFormattingEscapes(){
-        return [
-            "\033[0m",
-
-            "\033[30m",
-            "\033[31m",
-            "\033[32m",
-            "\033[33m",
-            "\033[34m",
-            "\033[35m",
-            "\033[36m",
-            "\033[37m",
-
-            "\033[40m",
-            "\033[41m",
-            "\033[42m",
-            "\033[43m",
-            "\033[44m",
-            "\033[45m",
-            "\033[46m",
-            "\033[47m",
-
-            "\033[90m",
-            "\033[91m",
-            "\033[92m",
-            "\033[93m",
-            "\033[94m",
-            "\033[95m",
-            "\033[96m",
-            "\033[97m",
-
-            "\033[100m",
-            "\033[101m",
-            "\033[102m",
-            "\033[103m",
-            "\033[104m",
-            "\033[105m",
-            "\033[106m",
-            "\033[107m",
-        ];
-    }
-
-
 
 }
