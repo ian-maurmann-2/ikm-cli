@@ -73,6 +73,7 @@ class CommandLineFormatter
     // Terminal Control
     public string $terminal_clear       = "\033[2J";
     public string $terminal_cursor_home = "\033[H";
+    public string $terminal_erase_line  = "\033[2K";
 
     public function __construct()
     {
