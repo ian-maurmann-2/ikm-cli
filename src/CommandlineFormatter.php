@@ -70,10 +70,14 @@ class CommandLineFormatter
     public string $bg_bright_cyan    = "\033[106m";
     public string $bg_bright_white   = "\033[107m";
 
-    // Terminal Control
-    public string $terminal_clear       = "\033[2J";
-    public string $terminal_cursor_home = "\033[H";
-    public string $terminal_erase_line  = "\033[2K";
+    // Terminal control
+    public string $terminal_clear = "\033[2J";
+    public string $terminal_erase_line = "\033[2K";
+
+    // Terminal Cursor control
+    public string $terminal_cursor_home                = "\033[H";
+    public string $terminal_cursor_save_position       = "\033[s";
+    public string $terminal_cursor_goto_saved_position = "\033[u";
 
     public function __construct()
     {
@@ -82,6 +86,16 @@ class CommandLineFormatter
 
         // Set defaults:
         // Do nothing for now.
+    }
+
+    public function terminalScrollUp($number_of_lines)
+    {
+        return "\033[" . $number_of_lines . "K";
+    }
+
+    public function terminalCursorUp($number_of_lines)
+    {
+        return "\033[" . $number_of_lines . "A";
     }
 
 
