@@ -34,14 +34,16 @@ use Exception;
  */
 class CommandLineTableBuilder
 {
-    private \IKM\CLI\CommandLineWriter $cli_writer;
-    private \IKM\CLI\StringUtility $string_utility;
+    private \IKM\CLI\CommandLineWriter    $cli_writer;
+    private \IKM\CLI\StringUtility        $string_utility;
+    private \IKM\CLI\CommandLineFormatter $cli_formatter;
 
     public function __construct()
     {
         // Set object dependencies:
-        $this->cli_writer = new \IKM\CLI\CommandLineWriter();
+        $this->cli_writer     = new \IKM\CLI\CommandLineWriter();
         $this->string_utility = new \IKM\CLI\StringUtility();
+        $this->cli_formatter  = new \IKM\CLI\CommandLineFormatter();
     }
 
 
@@ -282,6 +284,113 @@ class CommandLineTableBuilder
             'col_lengths' => $col_lengths,
             'row_heights' => $row_heights,
         ];
+    }
+
+    public function buildTable($data = [], $table_config=[])
+    {
+        // Objects
+        $writer = $this->cli_writer;
+        $format = $this->cli_formatter;
+
+        // Get size info
+        $size_info   = $this->getColAndRowSizes($data);
+        $col_lengths = $size_info['col_lengths'];
+        $row_heights = $size_info['row_heights'];
+        $num_cols    = count($col_lengths);
+        $num_rows    = count($row_heights);
+
+        // Loop through rows
+        $current_row_number = 0;
+        foreach ($data as $row_index => $row){
+            $current_row_number++; // Inc row number, starting at 1
+            $has_line_to_add  = true;
+            $current_sub_line = 0;
+            while($has_line_to_add) {
+                // Default row to only have one line
+                $has_line_to_add = false;
+
+                //$writer->writeLine($current_row_number);
+
+
+                $is_this_the_top_row  = $current_row_number === 1 && $current_sub_line === 0;
+                $is_this_a_middle_row = $current_row_number !== 1 && $current_sub_line === 0;
+
+                // Top Line
+                if($is_this_the_top_row){
+                    $is_first_col = true;
+                    foreach ($row as $col_index => $cell_data) {
+                        if ($is_first_col) {
+                            $is_first_col = false;
+
+                            // Top left corner
+                            $this->cli_writer->write('┌');
+                        } else {
+                            // Top intersection
+                            $this->cli_writer->write('┬');
+                        }
+                        // Top line over col
+                        $line = str_repeat('─', $col_lengths[$col_index]);
+                        $this->cli_writer->write($line);
+                    }
+
+                    // Top right corner
+                    $this->cli_writer->write('┐' . "\n");
+                }
+                elseif ($is_this_a_middle_row){
+                    $is_first_col = true;
+                    foreach ($row as $col_index => $cell_data) {
+                        if ($is_first_col) {
+                            $is_first_col = false;
+
+                            // Left intersection
+                            $this->cli_writer->write('├');
+                        } else {
+                            // Middle intersection
+                            $this->cli_writer->write('┼');
+                        }
+                        // Middle border between rows
+                        $line = str_repeat('─', $col_lengths[$col_index]);
+                        $this->cli_writer->write($line);
+                    }
+
+                    // Right intersection
+                    $this->cli_writer->write('┤' . "\n");
+                }
+
+                //--------------------
+
+
+                //--------------------
+
+                $next_row        = $data[$row_index +1] ?? [];
+                $has_another_row = count($next_row);
+                $is_bottom       = !$has_another_row && !$has_line_to_add;
+
+                if ($is_bottom) {
+                    // Bottom Line
+                    $is_first_col = true;
+                    foreach ($row as $col_index => $cell_data) {
+                        if ($is_first_col) {
+                            $is_first_col = false;
+
+                            // Bottom left corner
+                            $this->cli_writer->write('└');
+                        } else {
+                            // Bottom intersection
+                            $this->cli_writer->write('┴');
+                        }
+                        // Bottom line under col
+                        $line = str_repeat('─', $col_lengths[$col_index]);
+                        $this->cli_writer->write($line);
+                    }
+
+                    // Bottom right corner
+                    $this->cli_writer->write('┘' . "\n");
+                }
+
+                $current_sub_line++;
+            }
+        }
     }
 
 }
