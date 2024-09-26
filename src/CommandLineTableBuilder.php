@@ -358,6 +358,61 @@ class CommandLineTableBuilder
                 }
 
                 //--------------------
+                $has_heading_top = false;
+                $table_text_align = STR_PAD_RIGHT;
+                $columns_align_center = [];
+                $heading_top_text_align = STR_PAD_BOTH;
+
+
+                //--------------------
+
+                // Text Line
+                $is_first_col = true;
+                foreach ($row as $col_index => $cell_data) {
+                    if ($is_first_col) {
+                        $is_first_col = false;
+
+                        // Left side
+                        $this->cli_writer->write('│');
+                    } else {
+                        // Inside Col Border
+                        $this->cli_writer->write('│');
+                    }
+                    // Text
+                    $is_header             = $has_heading_top && $row_index === 0;
+                    $cell_text_align       = $table_text_align;
+                    $is_col_aligned_center = in_array($col_index, $columns_align_center);
+
+                    // Text alignment
+                    if($is_header){
+                        $cell_text_align = $heading_top_text_align;
+                    }
+                    elseif ($is_col_aligned_center){
+                        $cell_text_align = STR_PAD_BOTH;
+                    }
+
+                    // Text
+                    $cell_sub_lines     = explode("\n", (string) $cell_data);
+                    $cell_sub_line_text = $cell_sub_lines[$current_sub_line] ?? '';
+
+                    // Tabs
+                    $cell_sub_line_text = str_replace("\t",'    ', $cell_sub_line_text);
+
+                    // Line
+                    $line = $this->string_utility->mb_str_pad($cell_sub_line_text, $col_lengths[$col_index], ' ', $cell_text_align);
+
+                    $last_sub_line_index = count($cell_sub_lines) - 1;
+                    if($current_sub_line < $last_sub_line_index){
+                        $has_line_to_add  = true;
+                    }
+
+                    //$line = str_repeat('X', $col_lengths[$col_index]);
+
+                    $this->cli_writer->write($line);
+                }
+
+                // Top right corner
+                $this->cli_writer->write('│' . "\n");
 
 
                 //--------------------
