@@ -286,7 +286,7 @@ class CommandLineTableBuilder
         ];
     }
 
-    public function buildTable($data = [], $table_config=[])
+    public function buildTable($data = [], $table_config=[], $column_config=[])
     {
         // Objects
         $writer = $this->cli_writer;
@@ -298,6 +298,22 @@ class CommandLineTableBuilder
         $row_heights = $size_info['row_heights'];
         $num_cols    = count($col_lengths);
         $num_rows    = count($row_heights);
+
+
+        // ------------------------------------------------
+
+        $has_table_config = !empty($table_config) && is_array($table_config) && count($table_config);
+
+        $table_show_thead = false;
+        $table_text_align = STR_PAD_RIGHT;
+        if($has_table_config){
+            $table_show_thead = $table_config['table_show_thead'] ?? false;         // true | false
+            $table_text_align = $table_config['table_text_align'] ?? STR_PAD_RIGHT; // STR_PAD_RIGHT | STR_PAD_LEFT | STR_PAD_BOTH
+        }
+
+
+        // ------------------------------------------------
+        // ------------------------------------------------
 
         // Loop through rows
         $current_row_number = 0;
@@ -359,7 +375,6 @@ class CommandLineTableBuilder
 
                 //--------------------
                 $has_heading_top = false;
-                $table_text_align = STR_PAD_RIGHT;
                 $columns_align_center = [];
                 $heading_top_text_align = STR_PAD_BOTH;
 

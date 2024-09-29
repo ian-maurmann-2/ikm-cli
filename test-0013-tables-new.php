@@ -90,5 +90,33 @@ $writer->br();
 $table_builder->buildTable($pets);
 
 
+$table_cols = [
+    [
+        'attributes' => 'pet_name',
+        'label'      => 'Pet Name',
+    ],
+];
+
+
+$table_style = [
+    'table_text_align' => STR_PAD_BOTH, // STR_PAD_RIGHT | STR_PAD_LEFT | STR_PAD_BOTH
+];
+
+$table_builder->buildTable($pets, $table_style);
+
+
+
+$table_style = [
+    'table_text_align' => STR_PAD_LEFT, // STR_PAD_RIGHT | STR_PAD_LEFT | STR_PAD_BOTH
+];
+
+$table_builder->buildTable($pets, $table_style);
+
+$table_style = [
+    'table_text_align' => STR_PAD_RIGHT, // STR_PAD_RIGHT | STR_PAD_LEFT | STR_PAD_BOTH
+    'table_show_thead' => true,
+];
+
+$table_builder->buildTable($pets, $table_style, $table_cols);
 
 
