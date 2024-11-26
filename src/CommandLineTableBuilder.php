@@ -55,13 +55,35 @@ class CommandLineTableBuilder
         // Get info
         $data                            = $table_info['data'] ?? [];
         $heading_top                     = $table_info['heading_top'] ?? [];
-        $table_text_align                = $table_info['table_text_align'] ?? STR_PAD_RIGHT;
-        $heading_top_text_align          = $table_info['heading_top_text_align'] ?? STR_PAD_BOTH;
+        $table_text_align_string         = $table_info['table_text_align'] ?? 'left';
+        $heading_top_text_align_string   = $table_info['heading_top_text_align'] ?? 'left';
         $columns_align_center            = $table_info['columns_align_center'] ?? [];
         $columns_color_bright_yellow     = $table_info['columns_color_bright_yellow'] ?? [];
         $columns_highlight_1_bright_cyan = $table_info['columns_highlight_1_bright_cyan'] ?? [];
         $has_heading_top                 = is_array($heading_top) && count($heading_top);
 
+        // Setup text alignment
+        $table_text_pad_direction = STR_PAD_RIGHT;
+        if ($table_text_align_string === 'left') {
+            $table_text_pad_direction = STR_PAD_RIGHT;
+        }
+        elseif ($table_text_align_string === 'right') {
+            $table_text_pad_direction = STR_PAD_LEFT;
+        }
+        elseif ($table_text_align_string === 'center') {
+            $table_text_pad_direction = STR_PAD_BOTH;
+        }
+
+        $heading_top_text_pad_direction = STR_PAD_RIGHT;
+        if ($heading_top_text_align_string === 'left') {
+            $heading_top_text_pad_direction = STR_PAD_RIGHT;
+        }
+        elseif ($heading_top_text_align_string === 'right') {
+            $heading_top_text_pad_direction = STR_PAD_LEFT;
+        }
+        elseif ($heading_top_text_align_string === 'center') {
+            $heading_top_text_pad_direction = STR_PAD_BOTH;
+        }
 
         $this->cli_writer->writeLine('Building table.......');
 
@@ -158,17 +180,17 @@ class CommandLineTableBuilder
                     }
                     // Text
                     $is_header                      = $has_heading_top && $row_index === 0;
-                    $cell_text_align                = $table_text_align;
+                    $cell_text_pad_direction_int    = $table_text_pad_direction;
                     $is_col_aligned_center          = in_array($col_index, $columns_align_center);
                     $is_col_color_bright_yellow     = in_array($col_index, $columns_color_bright_yellow);
                     $is_col_highlight_1_bright_cyan = in_array($col_index, $columns_highlight_1_bright_cyan);
 
                     // Text alignment
                     if($is_header){
-                        $cell_text_align = $heading_top_text_align;
+                        $cell_text_pad_direction_int = $heading_top_text_pad_direction;
                     }
                     elseif ($is_col_aligned_center){
-                        $cell_text_align = STR_PAD_BOTH;
+                        $cell_text_pad_direction_int = STR_PAD_BOTH;
                     }
 
                     // Text
@@ -194,7 +216,7 @@ class CommandLineTableBuilder
                     $cell_sub_line_text = str_replace("\t",'    ', $cell_sub_line_text);
 
 
-                    $line                = $this->string_utility->mb_str_pad($cell_sub_line_text, $col_lengths[$col_index], ' ', $cell_text_align);
+                    $line                = $this->string_utility->mb_str_pad($cell_sub_line_text, $col_lengths[$col_index], ' ', $cell_text_pad_direction_int);
                     $last_sub_line_index = count($cell_sub_lines) - 1;
 
                     if($current_sub_line < $last_sub_line_index){
