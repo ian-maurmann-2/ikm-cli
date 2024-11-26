@@ -330,7 +330,7 @@ class CommandLineTableBuilder
         $table_text_align = STR_PAD_RIGHT;
         if($has_table_config){
             $table_show_thead = $table_config['table_show_thead'] ?? false;         // true | false
-            $table_text_align = $table_config['table_text_align'] ?? STR_PAD_RIGHT; // STR_PAD_RIGHT | STR_PAD_LEFT | STR_PAD_BOTH
+            $table_text_align = $this->string_utility->alignmentToPaddingDirection($table_config['table_text_align'] ?? 'left'); // STR_PAD_RIGHT | STR_PAD_LEFT | STR_PAD_BOTH
         }
 
 

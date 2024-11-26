@@ -127,4 +127,21 @@ class StringUtility
             "\033[107m",
         ];
     }
+
+    /**
+     * @noinspection PhpDuplicateMatchArmBodyInspection - For readability.
+     * @noinspection PhpUnnecessaryLocalVariableInspection - For readability.
+     */
+    public function alignmentToPaddingDirection(string $alignment): int
+    {
+        $pad_direction = match ($alignment) {
+            'left'   => STR_PAD_RIGHT, // Align left by padding the right
+            'right'  => STR_PAD_LEFT,  // Align right by padding the left
+            'center' => STR_PAD_BOTH,
+            default  => STR_PAD_RIGHT,
+        };
+
+        return $pad_direction;
+    }
+
 }

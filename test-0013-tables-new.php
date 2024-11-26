@@ -101,7 +101,7 @@ $table_cols = [
 
 
 $table_style = [
-    'table_text_align' => STR_PAD_BOTH, // STR_PAD_RIGHT | STR_PAD_LEFT | STR_PAD_BOTH
+    'table_text_align' => 'center', // 'left' | 'right' | 'center'
 ];
 
 $writer->br();
@@ -112,7 +112,7 @@ $table_builder->buildTable($pets, $table_style);
 $writer->br();
 $writer->writeLine('Aligned right');
 $table_style = [
-    'table_text_align' => STR_PAD_LEFT, // STR_PAD_RIGHT | STR_PAD_LEFT | STR_PAD_BOTH
+    'table_text_align' => 'right', // 'left' | 'right' | 'center'
 ];
 
 $table_builder->buildTable($pets, $table_style);
@@ -120,7 +120,7 @@ $table_builder->buildTable($pets, $table_style);
 $writer->br();
 $writer->writeLine('Aligned left');
 $table_style = [
-    'table_text_align' => STR_PAD_RIGHT, // STR_PAD_RIGHT | STR_PAD_LEFT | STR_PAD_BOTH
+    'table_text_align' => 'left', // 'left' | 'right' | 'center'
     'table_show_thead' => true,
 ];
 
