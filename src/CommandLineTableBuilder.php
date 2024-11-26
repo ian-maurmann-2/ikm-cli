@@ -327,10 +327,10 @@ class CommandLineTableBuilder
         $has_table_config = !empty($table_config) && is_array($table_config) && count($table_config);
 
         $table_show_thead = false;
-        $table_text_align = STR_PAD_RIGHT;
+        $table_text_pad_direction = STR_PAD_RIGHT;
         if($has_table_config){
-            $table_show_thead = $table_config['table_show_thead'] ?? false;         // true | false
-            $table_text_align = $this->string_utility->alignmentToPaddingDirection($table_config['table_text_align'] ?? 'left'); // STR_PAD_RIGHT | STR_PAD_LEFT | STR_PAD_BOTH
+            $table_show_thead = $table_config['table_show_thead'] ?? false; // true | false
+            $table_text_pad_direction = $this->string_utility->alignmentToPaddingDirection($table_config['table_text_align'] ?? 'left'); // STR_PAD_RIGHT | STR_PAD_LEFT | STR_PAD_BOTH
         }
 
 
@@ -398,7 +398,7 @@ class CommandLineTableBuilder
                 //--------------------
                 $has_heading_top = false;
                 $columns_align_center = [];
-                $heading_top_text_align = STR_PAD_BOTH;
+                $heading_top_text_pad_direction = STR_PAD_BOTH;
 
 
                 //--------------------
@@ -416,16 +416,16 @@ class CommandLineTableBuilder
                         $this->cli_writer->write('│');
                     }
                     // Text
-                    $is_header             = $has_heading_top && $row_index === 0;
-                    $cell_text_align       = $table_text_align;
-                    $is_col_aligned_center = in_array($col_index, $columns_align_center);
+                    $is_header               = $has_heading_top && $row_index === 0;
+                    $cell_text_pad_direction = $table_text_pad_direction;
+                    $is_col_aligned_center   = in_array($col_index, $columns_align_center);
 
                     // Text alignment
                     if($is_header){
-                        $cell_text_align = $heading_top_text_align;
+                        $cell_text_pad_direction = $heading_top_text_pad_direction;
                     }
                     elseif ($is_col_aligned_center){
-                        $cell_text_align = STR_PAD_BOTH;
+                        $cell_text_pad_direction = STR_PAD_BOTH;
                     }
 
                     // Text
@@ -436,7 +436,7 @@ class CommandLineTableBuilder
                     $cell_sub_line_text = str_replace("\t",'    ', $cell_sub_line_text);
 
                     // Line
-                    $line = $this->string_utility->mb_str_pad($cell_sub_line_text, $col_lengths[$col_index], ' ', $cell_text_align);
+                    $line = $this->string_utility->mb_str_pad($cell_sub_line_text, $col_lengths[$col_index], ' ', $cell_text_pad_direction);
 
                     $last_sub_line_index = count($cell_sub_lines) - 1;
                     if($current_sub_line < $last_sub_line_index){
