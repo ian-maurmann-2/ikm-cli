@@ -321,6 +321,8 @@ class CommandLineTableBuilder
         $num_cols    = count($col_lengths);
         $num_rows    = count($row_heights);
 
+        $has_column_config = count($column_config) > 0;
+
 
         // ------------------------------------------------
 
@@ -353,10 +355,17 @@ class CommandLineTableBuilder
                 $is_this_the_top_row  = $current_row_number === 1 && $current_sub_line === 0;
                 $is_this_a_middle_row = $current_row_number !== 1 && $current_sub_line === 0;
 
+                if($has_column_config){
+                    $columns = $this->getColumnData($row, $column_config);
+                }
+                else {
+                    $columns = $row;
+                }
+
                 // Top Line
                 if($is_this_the_top_row){
                     $is_first_col = true;
-                    foreach ($row as $col_index => $cell_data) {
+                    foreach ($columns as $col_index => $cell_data) {
                         if ($is_first_col) {
                             $is_first_col = false;
 
@@ -376,7 +385,7 @@ class CommandLineTableBuilder
                 }
                 elseif ($is_this_a_middle_row){
                     $is_first_col = true;
-                    foreach ($row as $col_index => $cell_data) {
+                    foreach ($columns as $col_index => $cell_data) {
                         if ($is_first_col) {
                             $is_first_col = false;
 
@@ -405,7 +414,7 @@ class CommandLineTableBuilder
 
                 // Text Line
                 $is_first_col = true;
-                foreach ($row as $col_index => $cell_data) {
+                foreach ($columns as $col_index => $cell_data) {
                     if ($is_first_col) {
                         $is_first_col = false;
 
@@ -461,7 +470,7 @@ class CommandLineTableBuilder
                 if ($is_bottom) {
                     // Bottom Line
                     $is_first_col = true;
-                    foreach ($row as $col_index => $cell_data) {
+                    foreach ($columns as $col_index => $cell_data) {
                         if ($is_first_col) {
                             $is_first_col = false;
 
@@ -483,6 +492,23 @@ class CommandLineTableBuilder
                 $current_sub_line++;
             }
         }
+    }
+
+    private function getColumnData(array $row, array $column_config): array
+    {
+        // Default to empty array
+        $columns = [];
+
+        foreach ($column_config as $column_config_item) {
+            $attribute = $column_config_item['attribute'] ?? '';
+            $has_attribute = !empty($attribute);
+
+            if($has_attribute){
+                $columns[$attribute] = $row[$attribute] ?? '';
+            }
+        }
+
+        return $columns;
     }
 
 }

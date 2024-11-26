@@ -127,3 +127,202 @@ $table_style = [
 $table_builder->buildTable($pets, $table_style, $table_cols);
 
 
+// ==========================================================
+
+$writer->hr();
+
+$pets = [
+    [
+        'pet_name' => 'Spot',
+        'kind_of_animal' => 'dog',
+        'pet_number_legs' => 4,
+        'pet_owner_name' => 'John Doe',
+        'pet_owner_number_legs' => 2,
+    ],
+    [
+        'pet_name' => 'Fluffy',
+        'kind_of_animal' => 'cat',
+        'pet_number_legs' => 4,
+        'pet_owner_name' => 'Jane Doe',
+        'pet_owner_number_legs' => 2,
+    ],
+    [
+        'pet_name' => 'Flint',
+        'kind_of_animal' => 'parrot',
+        'pet_number_legs' => 2,
+        'pet_owner_name' => 'John Silver',
+        'pet_owner_number_legs' => 1,
+    ],
+    [
+        'pet_name' => 'V',
+        'kind_of_animal' => 'W',
+        'pet_number_legs' => 'X',
+        'pet_owner_name' => 'Y',
+        'pet_owner_number_legs' => 'Z',
+    ],
+    [
+        'pet_name' => 'V',
+    ],
+    [
+        'kind_of_animal' => 'W',
+    ],
+    [
+        'pet_number_legs' => 'X',
+    ],
+    [
+        'pet_owner_name' => 'Y',
+    ],
+    [
+        'pet_owner_number_legs' => 'Z',
+    ],
+];
+
+
+
+$table_style = [
+    'table_text_align' => 'left', // 'left' | 'right' | 'center'
+    'table_show_thead' => true,
+];
+
+$writer->br();
+$writer->writeLine('Aligned left, with gaps');
+$table_builder->buildTable($pets, $table_style);
+
+
+
+
+
+
+$table_style = [
+    'table_text_align' => 'left', // 'left' | 'right' | 'center'
+    'table_show_thead' => true,
+];
+
+$table_cols = [
+    [
+        'attribute' => 'pet_name',
+        'label'     => 'Pet Name',
+    ],
+];
+$writer->br();
+$writer->writeLine('Aligned left, with gaps');
+$table_builder->buildTable($pets, $table_style, $table_cols);
+
+
+
+
+$table_cols = [
+    [
+        'attribute' => 'pet_name',
+        'label'     => 'Pet Name',
+    ],
+    [
+        'attribute' => 'kind_of_animal',
+        'label'     => 'Type',
+    ],
+];
+$writer->br();
+$writer->writeLine('Aligned left, with gaps');
+$table_builder->buildTable($pets, $table_style, $table_cols);
+
+
+
+
+$table_cols = [
+    [
+        'attribute' => 'pet_name',
+        'label'     => 'Pet Name',
+    ],
+    [
+        'attribute' => 'kind_of_animal',
+        'label'     => 'Type',
+    ],
+    [
+        'attribute' => 'pet_number_legs',
+        'label'     => 'Num. Legs',
+    ],
+];
+$writer->br();
+$writer->writeLine('Aligned left, with gaps');
+$table_builder->buildTable($pets, $table_style, $table_cols);
+
+
+
+
+$table_cols = [
+    [
+        'attribute' => 'pet_name',
+        'label'     => 'Pet Name',
+    ],
+    [
+        'attribute' => 'kind_of_animal',
+        'label'     => 'Type',
+    ],
+    [
+        'attribute' => 'pet_number_legs',
+        'label'     => 'Num. Legs',
+    ],
+    [
+        'attribute' => 'pet_owner_name',
+        'label'     => 'Owner',
+    ],
+];
+$writer->br();
+$writer->writeLine('Aligned left, with gaps');
+$table_builder->buildTable($pets, $table_style, $table_cols);
+
+
+$table_cols = [
+    [
+        'attribute' => 'pet_name',
+        'label'     => 'Pet Name',
+    ],
+    [
+        'attribute' => 'kind_of_animal',
+        'label'     => 'Type',
+    ],
+    [
+        'attribute' => 'pet_number_legs',
+        'label'     => 'Num. Legs',
+    ],
+    [
+        'attribute' => 'pet_owner_name',
+        'label'     => 'Owner',
+    ],
+    [
+        'attribute' => 'pet_owner_number_legs',
+        'label'     => 'Num. Legs',
+    ],
+];
+$writer->br();
+$writer->writeLine('Aligned left, with gaps');
+$table_builder->buildTable($pets, $table_style, $table_cols);
+
+
+
+
+$table_cols = [
+    [
+        'attribute' => 'pet_owner_name',
+        'label'     => 'Owner',
+    ],
+    [
+        'attribute' => 'pet_owner_number_legs',
+        'label'     => 'Num. Legs',
+    ],
+    [
+        'attribute' => 'pet_name',
+        'label'     => 'Pet Name',
+    ],
+    [
+        'attribute' => 'kind_of_animal',
+        'label'     => 'Type',
+    ],
+    [
+        'attribute' => 'pet_number_legs',
+        'label'     => 'Num. Legs',
+    ],
+];
+$writer->br();
+$writer->writeLine('Aligned left, with gaps');
+$table_builder->buildTable($pets, $table_style, $table_cols);
