@@ -356,10 +356,11 @@ class CommandLineTableBuilder
                 $is_this_a_middle_row = $current_row_number !== 1 && $current_sub_line === 0;
 
                 if($has_column_config){
-                    $columns = $this->getColumnData($row, $column_config);
+                    // $columns = $this->getColumnData($row, $column_config);
+                    $columns = $this->getColumnData2($row, $column_config);
                 }
                 else {
-                    $columns = $row;
+                    continue;
                 }
 
                 // Top Line
@@ -406,7 +407,6 @@ class CommandLineTableBuilder
 
                 //--------------------
                 $has_heading_top = false;
-                $columns_align_center = [];
                 $heading_top_text_pad_direction = STR_PAD_BOTH;
 
 
@@ -424,21 +424,19 @@ class CommandLineTableBuilder
                         // Inside Col Border
                         $this->cli_writer->write('│');
                     }
-                    // Text
-                    $is_header               = $has_heading_top && $row_index === 0;
-                    $cell_text_pad_direction = $table_text_pad_direction;
-                    $is_col_aligned_center   = in_array($col_index, $columns_align_center);
-
-                    // Text alignment
-                    if($is_header){
-                        $cell_text_pad_direction = $heading_top_text_pad_direction;
-                    }
-                    elseif ($is_col_aligned_center){
-                        $cell_text_pad_direction = STR_PAD_BOTH;
-                    }
 
                     // Text
-                    $cell_sub_lines     = explode("\n", (string) $cell_data);
+                    // ====================================================================
+                    $is_header                   = $has_heading_top && $row_index === 0;
+                    $cell_text_lines             = $cell_data['value'];
+                    $has_column_alignment        = isset($cell_data['text_align']) && !empty($cell_data['text_align']);
+                    $column_alignment_string     = $has_column_alignment ? $cell_data['text_align'] : '';
+                    $column_text_pad_direction   = $has_column_alignment ? $this->string_utility->alignmentToPaddingDirection($column_alignment_string ?? 'left') : STR_PAD_LEFT;
+                    $cell_text_pad_direction     = $has_column_alignment ? $column_text_pad_direction : $table_text_pad_direction;
+                    // ====================================================================
+
+                    // Text
+                    $cell_sub_lines     = explode("\n", (string) $cell_text_lines);
                     $cell_sub_line_text = $cell_sub_lines[$current_sub_line] ?? '';
 
                     // Tabs
@@ -505,6 +503,38 @@ class CommandLineTableBuilder
 
             if($has_attribute){
                 $columns[$attribute] = $row[$attribute] ?? '';
+            }
+        }
+
+        return $columns;
+    }
+
+    private function getColumnData2(array $row, array $column_config): array
+    {
+        // Default to empty array
+        $columns = [];
+
+        /*
+        foreach ($column_config as $column_config_item) {
+            $attribute = $column_config_item['attribute'] ?? '';
+            $has_attribute = !empty($attribute);
+
+            if($has_attribute){
+                $columns[$attribute] = $row[$attribute] ?? '';
+            }
+        }
+        */
+
+        foreach ($column_config as $column_config_item) {
+            $attribute = $column_config_item['attribute'] ?? '';
+            $has_attribute = !empty($attribute);
+
+            if($has_attribute){
+                $columns[$attribute] = $column_config_item;
+                $current_column_is_array = is_array($columns[$attribute]);
+                if($current_column_is_array){
+                    $columns[$attribute]['value'] = $row[$attribute] ?? '';
+                }
             }
         }
 
