@@ -319,6 +319,7 @@ class CommandLineTableBuilder
 
         // Check table head
         $table_show_head = false;
+        $table_head_row_count = 0;
         if($has_table_config){
             $table_show_head = $table_config['table_show_head'] ?? false; // true | false
         }
@@ -327,6 +328,7 @@ class CommandLineTableBuilder
         if($table_show_head){
             $head_rows = $this->getTableHeadRows($column_config);
             $data = array_merge($head_rows, $data_source_array);
+            $table_head_row_count++;
         }
 
         // Get size info
@@ -340,8 +342,10 @@ class CommandLineTableBuilder
 
         // Set alignment
         $table_text_pad_direction = STR_PAD_RIGHT;
+        $table_head_text_pad_direction = STR_PAD_BOTH;
         if($has_table_config){
-            $table_text_pad_direction = $this->string_utility->alignmentToPaddingDirection($table_config['table_text_align'] ?? 'left'); // STR_PAD_RIGHT | STR_PAD_LEFT | STR_PAD_BOTH
+            $table_text_pad_direction      = $this->string_utility->alignmentToPaddingDirection($table_config['table_text_align']      ?? 'left'   ); // STR_PAD_RIGHT | STR_PAD_LEFT | STR_PAD_BOTH
+            $table_head_text_pad_direction = $this->string_utility->alignmentToPaddingDirection($table_config['table_head_text_align'] ?? 'center' ); // STR_PAD_RIGHT | STR_PAD_LEFT | STR_PAD_BOTH
         }
 
         // ------------------------------------------------
@@ -353,6 +357,7 @@ class CommandLineTableBuilder
             $current_row_number++; // Inc row number, starting at 1
             $has_line_to_add  = true;
             $current_sub_line = 0;
+            $is_row_in_table_head = !($current_row_number > $table_head_row_count);
             while($has_line_to_add) {
                 // Default row to only have one line
                 $has_line_to_add = false;
@@ -413,13 +418,6 @@ class CommandLineTableBuilder
                     $this->cli_writer->write('┤' . "\n");
                 }
 
-                //--------------------
-                $has_heading_top = false;
-                $heading_top_text_pad_direction = STR_PAD_BOTH;
-
-
-                //--------------------
-
                 // Text Line
                 $is_first_col = true;
                 foreach ($columns as $col_index => $cell_data) {
@@ -435,13 +433,19 @@ class CommandLineTableBuilder
 
                     // Text
                     // ====================================================================
-                    $is_header                   = $has_heading_top && $row_index === 0;
                     $cell_text_lines             = $cell_data['value'];
                     $has_column_alignment        = isset($cell_data['text_align']) && !empty($cell_data['text_align']);
                     $column_alignment_string     = $has_column_alignment ? $cell_data['text_align'] : '';
                     $column_text_pad_direction   = $has_column_alignment ? $this->string_utility->alignmentToPaddingDirection($column_alignment_string ?? 'left') : STR_PAD_LEFT;
                     $cell_text_pad_direction     = $has_column_alignment ? $column_text_pad_direction : $table_text_pad_direction;
                     // ====================================================================
+
+                    if($is_row_in_table_head){
+                        $has_column_head_alignment      = isset($cell_data['head_text_align']) && !empty($cell_data['head_text_align']);
+                        $column_head_alignment_string   = $has_column_head_alignment ? $cell_data['head_text_align'] : '';
+                        $column_head_text_pad_direction = $has_column_head_alignment ? $this->string_utility->alignmentToPaddingDirection($column_head_alignment_string ?? 'center') : STR_PAD_BOTH;
+                        $cell_text_pad_direction        = $has_column_head_alignment ? $column_head_text_pad_direction : $table_head_text_pad_direction;
+                    }
 
                     // Text
                     $cell_sub_lines     = explode("\n", (string) $cell_text_lines);
