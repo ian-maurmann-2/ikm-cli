@@ -121,7 +121,7 @@ $writer->br();
 $writer->writeLine('Aligned left');
 $table_style = [
     'table_text_align' => 'left', // 'left' | 'right' | 'center'
-    'table_show_thead' => true,
+    'table_show_head' => true,
 ];
 
 $table_builder->buildTable($pets, $table_style, $table_cols);
@@ -181,7 +181,7 @@ $pets = [
 
 $table_style = [
     'table_text_align' => 'left', // 'left' | 'right' | 'center'
-    'table_show_thead' => true,
+    'table_show_head' => true,
 ];
 
 $writer->br();
@@ -195,7 +195,7 @@ $table_builder->buildTable($pets, $table_style);
 
 $table_style = [
     'table_text_align' => 'left', // 'left' | 'right' | 'center'
-    'table_show_thead' => true,
+    'table_show_head' => true,
 ];
 
 $table_cols = [
@@ -305,7 +305,7 @@ $table_builder->buildTable($pets, $table_style, $table_cols);
 
 $table_style = [
     'table_text_align' => 'left', // 'left' | 'right' | 'center'
-    'table_show_thead' => true,
+    'table_show_head' => true,
 ];
 
 $table_cols = [
@@ -344,7 +344,7 @@ $table_builder->buildTable($pets, $table_style, $table_cols);
 
 $table_style = [
     'table_text_align' => 'left', // 'left' | 'right' | 'center'
-    'table_show_thead' => true,
+    'table_show_head' => true,
 ];
 
 $table_cols = [
@@ -427,7 +427,7 @@ $pets = [
 
 $table_style = [
     'table_text_align' => 'left', // 'left' | 'right' | 'center'
-    'table_show_thead' => true,
+    'table_show_head' => true,
 ];
 
 $table_cols = [
@@ -552,6 +552,80 @@ $pets = [
 $writer->br();
 $writer->writeLine('Aligned left, with gaps, Types of Pet align right');
 $table_builder->buildTable($pets, $table_style, $table_cols);
+
+
+
+$table_cols = [
+    [
+        'attribute' => 'pet_owner_name',
+        'label'     => 'Owner',
+    ],
+    [
+        'attribute' => 'pet_owner_number_legs',
+        'label'     => 'Num. Legs',
+    ],
+    [
+        'attribute' => 'pet_name',
+        'label'     => 'Pet Name',
+    ],
+    [
+        'attribute' => 'kind_of_animal',
+        'label'     => 'Type',
+        'text_align' => 'right',
+    ],
+    [
+        'attribute' => 'pet_number_legs',
+        'label'     => 'Num. Legs',
+    ],
+];
+
+$table_style = [
+    'table_text_align' => 'center', // 'left' | 'right' | 'center'
+    'table_show_head' => true,
+];
+
+$writer->br();
+$writer->writeLine('Aligned center, with gaps, Types of Pet align right');
+$table_builder->buildTable($pets, $table_style, $table_cols);
+
+
+$table_style = [
+    'table_text_align' => 'right', // 'left' | 'right' | 'center'
+    'table_show_head' => true,
+];
+
+$writer->br();
+$writer->writeLine('Aligned right, with gaps, Types of Pet align right');
+$table_builder->buildTable($pets, $table_style, $table_cols);
+
+
+$table_style = [
+    'table_text_align' => 'left', // 'left' | 'right' | 'center'
+    'table_show_head' => true,
+];
+
+$writer->br();
+$writer->writeLine('Aligned left, with gaps, Types of Pet align right');
+$table_builder->buildTable($pets, $table_style, $table_cols);
+
+$table_style = [
+    'table_text_align' => 'left', // 'left' | 'right' | 'center'
+];
+
+$writer->br();
+$writer->writeLine('Aligned left, with gaps, Types of Pet align right');
+$table_builder->buildTable($pets, $table_style, $table_cols);
+
+
+$table_style = [
+    'table_text_align' => 'left', // 'left' | 'right' | 'center'
+    'table_show_head' => true,
+];
+
+$writer->br();
+$writer->writeLine('Aligned left, with gaps, Types of Pet align right');
+$table_builder->buildTable($pets, $table_style, $table_cols);
+
 
 
 

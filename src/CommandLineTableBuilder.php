@@ -308,11 +308,26 @@ class CommandLineTableBuilder
         ];
     }
 
-    public function buildTable($data = [], $table_config=[], $column_config=[])
+    public function buildTable(array $data_source_array = [], array $table_config=[], array $column_config=[])
     {
         // Objects
         $writer = $this->cli_writer;
         $format = $this->cli_formatter;
+
+        // Table config
+        $has_table_config = !empty($table_config) && is_array($table_config) && count($table_config);
+
+        // Check table head
+        $table_show_head = false;
+        if($has_table_config){
+            $table_show_head = $table_config['table_show_head'] ?? false; // true | false
+        }
+
+        $data = $data_source_array;
+        if($table_show_head){
+            $head_rows = $this->getTableHeadRows($column_config);
+            $data = array_merge($head_rows, $data_source_array);
+        }
 
         // Get size info
         $size_info   = $this->getColAndRowSizes($data);
@@ -323,18 +338,11 @@ class CommandLineTableBuilder
 
         $has_column_config = count($column_config) > 0;
 
-
-        // ------------------------------------------------
-
-        $has_table_config = !empty($table_config) && is_array($table_config) && count($table_config);
-
-        $table_show_thead = false;
+        // Set alignment
         $table_text_pad_direction = STR_PAD_RIGHT;
         if($has_table_config){
-            $table_show_thead = $table_config['table_show_thead'] ?? false; // true | false
             $table_text_pad_direction = $this->string_utility->alignmentToPaddingDirection($table_config['table_text_align'] ?? 'left'); // STR_PAD_RIGHT | STR_PAD_LEFT | STR_PAD_BOTH
         }
-
 
         // ------------------------------------------------
         // ------------------------------------------------
@@ -539,6 +547,31 @@ class CommandLineTableBuilder
         }
 
         return $columns;
+    }
+
+    private function getTableHeadRows(array $columns = []): array
+    {
+        $table_head_rows = [];
+        $table_label_row = [];
+
+        // Build label row
+        foreach($columns as $column){
+            $attribute = $column['attribute'] ?? '';
+            $has_attribute = !empty($attribute);
+            $label = $column['label'] ?? '';
+
+            if($has_attribute){
+                $table_label_row[$attribute] = (string) $label;
+            }
+        }
+
+        // Add label row
+        $has_label_row = is_array($table_label_row) && count($table_label_row);
+        if($has_label_row){
+            $table_head_rows[] = $table_label_row;
+        }
+
+        return $table_head_rows;
     }
 
 }
