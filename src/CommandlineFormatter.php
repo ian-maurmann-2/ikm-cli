@@ -30,6 +30,15 @@ class CommandLineFormatter
     // Reset
     public string $reset = "\033[0m";
 
+    // Formatting
+    public string $bold       = "\033[1m";
+    public string $dim        = "\033[1m";
+    public string $italic     = "\033[1m";
+    public string $underlined = "\033[1m";
+    public string $blinking   = "\033[1m";
+    public string $reverse    = "\033[1m";
+    public string $invisible  = "\033[1m";
+
     // Foreground Dark
     public string $fg_dark_black   = "\033[30m";
     public string $fg_dark_red     = "\033[31m";
@@ -79,6 +88,8 @@ class CommandLineFormatter
     public string $terminal_cursor_save_position       = "\033[s";
     public string $terminal_cursor_goto_saved_position = "\033[u";
 
+    public string $previous = '';
+
     public function __construct()
     {
         // Set object dependencies:
@@ -96,6 +107,11 @@ class CommandLineFormatter
     public function terminalCursorUp($number_of_lines)
     {
         return "\033[" . $number_of_lines . "A";
+    }
+
+    public function setPrevious(string $character_sequence)
+    {
+        $this->previous = $character_sequence;
     }
 
 
