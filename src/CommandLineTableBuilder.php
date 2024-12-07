@@ -348,6 +348,28 @@ class CommandLineTableBuilder
             $table_head_text_pad_direction = $this->string_utility->alignmentToPaddingDirection($table_config['table_head_text_align'] ?? 'center' ); // STR_PAD_RIGHT | STR_PAD_LEFT | STR_PAD_BOTH
         }
 
+        // Border color
+        $border_fg_color = '';
+        $border_bg_color = '';
+        if($has_table_config) {
+            $border_fg_color_name = $table_config['table_border_fg_color'] ?? '';
+            $border_bg_color_name = $table_config['table_border_bg_color'] ?? '';
+            $border_fg_color = $this->nameToFgColor($border_fg_color_name);
+            $border_bg_color = $this->nameToBgColor($border_bg_color_name);
+        }
+        $border_styling = $border_bg_color . $border_fg_color;
+
+        // Cell color
+        $cell_fg_color = '';
+        $cell_bg_color = '';
+        if($has_table_config) {
+            $cell_fg_color_name = $table_config['table_cell_fg_color'] ?? '';
+            $cell_bg_color_name = $table_config['table_cell_bg_color'] ?? '';
+            $cell_fg_color = $this->nameToFgColor($cell_fg_color_name);
+            $cell_bg_color = $this->nameToBgColor($cell_bg_color_name);
+        }
+        $cell_styling = $cell_bg_color . $cell_fg_color;
+
         // ------------------------------------------------
         // ------------------------------------------------
 
@@ -384,6 +406,7 @@ class CommandLineTableBuilder
                             $is_first_col = false;
 
                             // Top left corner
+                            $this->cli_writer->write($border_styling);
                             $this->cli_writer->write('┌');
                         } else {
                             // Top intersection
@@ -395,7 +418,7 @@ class CommandLineTableBuilder
                     }
 
                     // Top right corner
-                    $this->cli_writer->write('┐' . "\n");
+                    $this->cli_writer->write('┐' . $format->reset . "\n");
                 }
                 elseif ($is_this_a_middle_row){
                     $is_first_col = true;
@@ -404,6 +427,7 @@ class CommandLineTableBuilder
                             $is_first_col = false;
 
                             // Left intersection
+                            $this->cli_writer->write($border_styling);
                             $this->cli_writer->write('├');
                         } else {
                             // Middle intersection
@@ -415,7 +439,7 @@ class CommandLineTableBuilder
                     }
 
                     // Right intersection
-                    $this->cli_writer->write('┤' . "\n");
+                    $this->cli_writer->write('┤' . $format->reset . "\n");
                 }
 
                 // Text Line
@@ -425,10 +449,14 @@ class CommandLineTableBuilder
                         $is_first_col = false;
 
                         // Left side
+                        $this->cli_writer->write($border_styling);
                         $this->cli_writer->write('│');
+                        $this->cli_writer->write($format->reset);
                     } else {
                         // Inside Col Border
+                        $this->cli_writer->write($border_styling);
                         $this->cli_writer->write('│');
+                        $this->cli_writer->write($format->reset);
                     }
 
                     // Text
@@ -464,11 +492,14 @@ class CommandLineTableBuilder
 
                     //$line = str_repeat('X', $col_lengths[$col_index]);
 
+                    $this->cli_writer->write($cell_styling);
                     $this->cli_writer->write($line);
+                    $this->cli_writer->write($format->reset);
                 }
 
                 // Top right corner
-                $this->cli_writer->write('│' . "\n");
+                $this->cli_writer->write($border_styling);
+                $this->cli_writer->write('│' . $format->reset . "\n");
 
 
                 //--------------------
@@ -485,6 +516,7 @@ class CommandLineTableBuilder
                             $is_first_col = false;
 
                             // Bottom left corner
+                            $this->cli_writer->write($border_styling);
                             $this->cli_writer->write('└');
                         } else {
                             // Bottom intersection
@@ -496,7 +528,7 @@ class CommandLineTableBuilder
                     }
 
                     // Bottom right corner
-                    $this->cli_writer->write('┘' . "\n");
+                    $this->cli_writer->write('┘' . $format->reset . "\n");
                 }
 
                 $current_sub_line++;
@@ -576,6 +608,64 @@ class CommandLineTableBuilder
         }
 
         return $table_head_rows;
+    }
+
+    private function nameToFgColor($color_name): string
+    {
+        // Objects
+        $format = new \IKM\CLI\CommandLineFormatter();
+
+        $color_escape = match ($color_name) {
+            'dark-black'   => $format->fg_dark_black,
+            'dark-red'     => $format->fg_dark_red,
+            'dark-green'   => $format->fg_dark_green,
+            'dark-yellow'  => $format->fg_dark_yellow,
+            'dark-blue'    => $format->fg_dark_blue,
+            'dark-magenta' => $format->fg_dark_magenta,
+            'dark-cyan'    => $format->fg_dark_cyan,
+            'dark-white'   => $format->fg_dark_white,
+
+            'bright-black'   => $format->fg_bright_black,
+            'bright-red'     => $format->fg_bright_red,
+            'bright-green'   => $format->fg_bright_green,
+            'bright-yellow'  => $format->fg_bright_yellow,
+            'bright-blue'    => $format->fg_bright_blue,
+            'bright-magenta' => $format->fg_bright_magenta,
+            'bright-cyan'    => $format->fg_bright_cyan,
+            'bright-white'   => $format->fg_bright_white,
+            default          => '',
+        };
+
+        return $color_escape;
+    }
+
+    private function nameToBgColor($color_name): string
+    {
+        // Objects
+        $format = new \IKM\CLI\CommandLineFormatter();
+
+        $color_escape = match ($color_name) {
+            'dark-black'   => $format->bg_dark_black,
+            'dark-red'     => $format->bg_dark_red,
+            'dark-green'   => $format->bg_dark_green,
+            'dark-yellow'  => $format->bg_dark_yellow,
+            'dark-blue'    => $format->bg_dark_blue,
+            'dark-magenta' => $format->bg_dark_magenta,
+            'dark-cyan'    => $format->bg_dark_cyan,
+            'dark-white'   => $format->bg_dark_white,
+
+            'bright-black'   => $format->bg_bright_black,
+            'bright-red'     => $format->bg_bright_red,
+            'bright-green'   => $format->bg_bright_green,
+            'bright-yellow'  => $format->bg_bright_yellow,
+            'bright-blue'    => $format->bg_bright_blue,
+            'bright-magenta' => $format->bg_bright_magenta,
+            'bright-cyan'    => $format->bg_bright_cyan,
+            'bright-white'   => $format->bg_bright_white,
+            default          => '',
+        };
+
+        return $color_escape;
     }
 
 }

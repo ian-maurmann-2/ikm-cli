@@ -721,6 +721,11 @@ $table_style = [
 
     'table_show_head' => true,
     // 'table_head_text_align' => 'right',
+
+    'table_border_fg_color' => 'bright-yellow',
+    'table_border_bg_color' => 'dark-green',
+    'table_cell_fg_color' => 'bright-magenta',
+    'table_cell_bg_color' => 'dark-red',
 ];
 
 $table_cols = [
