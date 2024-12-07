@@ -37,13 +37,13 @@ class CommandLineFormatter
     public string $reset = "\033[0m";
 
     // Formatting
-    public string $bold       = "\033[1m";
-    public string $dim        = "\033[1m";
-    public string $italic     = "\033[1m";
-    public string $underlined = "\033[1m";
-    public string $blinking   = "\033[1m";
-    public string $reverse    = "\033[1m";
-    public string $invisible  = "\033[1m";
+    public string $bold      = "\033[1m";
+    public string $dim       = "\033[2m";
+    public string $italic    = "\033[3m";
+    public string $underline = "\033[4m";
+    public string $blink     = "\033[5m";
+    public string $reverse   = "\033[6m";
+    public string $invisible = "\033[7m";
 
     // Foreground Dark
     public string $fg_dark_black   = "\033[30m";

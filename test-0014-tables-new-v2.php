@@ -892,9 +892,115 @@ $pets = [
     ],
     [
         'pet_name' =>
+            "Lorem ipsum {bg_bright_red}{fg_bright_white}dolor{previous} {underline}sit{previous} amet,\n"
+            . "consectetur {bold}adipiscing{previous} elit,\n"
+            . "sed do {fg_bright_green}eiusmod tempor{previous} incididunt\n"
+            . "ut {dim}labore{previous} et dolore magna aliqua.\n"
+            . "Ut enim ad {italic}minim veniam{previous}, quis\n"
+            . "nostrud exercitation {blink}ullamco{previous} laboris\n"
+            . "nisi ut {bold}aliquip{previous} ex ea commodo consequat.",
+    ],
+];
+
+
+$writer->br();
+$writer->writeLine('Aligned left, with gaps, Types of Pet align right');
+$table_builder->buildTable($pets, $table_style, $table_cols);
+
+
+
+
+
+
+
+$table_style = [
+    'table_text_align' => 'left', // 'left' | 'right' | 'center'
+
+    'table_show_head' => true,
+    // 'table_head_text_align' => 'right',
+
+    // 'table_border_fg_color' => 'dark-yellow',
+    // 'table_cell_fg_color' => 'bright-yellow',
+];
+
+$table_cols = [
+    [
+        'attribute' => 'pet_owner_name',
+        'label'     => 'Owner',
+    ],
+    [
+        'attribute' => 'pet_owner_number_legs',
+        'label'     => 'Num. Legs',
+    ],
+    [
+        'attribute' => 'pet_name',
+        'label'     => 'Pet Name',
+        // 'head_text_align' => 'left',
+    ],
+    [
+        'attribute' => 'kind_of_animal',
+        'label'     => 'Type',
+        'text_align' => 'right',
+    ],
+    [
+        'attribute' => 'pet_number_legs',
+        'label'     => 'Num. Legs',
+    ],
+];
+
+
+
+
+
+$pets = [
+    [
+        'pet_name' => 'Spot',
+        'kind_of_animal' => 'dog',
+        'pet_number_legs' => 4,
+        'pet_owner_name' => 'John Doe',
+        'pet_owner_number_legs' => 2,
+    ],
+    [
+        'pet_name' => 'Fluffy',
+        'kind_of_animal' => 'cat',
+        'pet_number_legs' => 4,
+        'pet_owner_name' => 'Jane Doe',
+        'pet_owner_number_legs' => 2,
+    ],
+    [
+        'pet_name' => 'Flint',
+        'kind_of_animal' => 'parrot',
+        'pet_number_legs' => 2,
+        'pet_owner_name' => 'John Silver',
+        'pet_owner_number_legs' => 1,
+    ],
+    [
+        'pet_name' => 'V',
+        'kind_of_animal' => 'W',
+        'pet_number_legs' => 'X',
+        'pet_owner_name' => 'Y',
+        'pet_owner_number_legs' => 'Z',
+    ],
+    [
+        'pet_name' => 'V',
+    ],
+    [
+        'kind_of_animal' => 'W',
+    ],
+    [
+        'pet_number_legs' => 'X',
+    ],
+    [
+        'pet_owner_name' => 'Y',
+    ],
+    [
+        'pet_owner_number_legs' => 'Z',
+    ],
+    [
+        'pet_name' =>
             "Lorem ipsum dolor sit amet,\n"
             . "consectetur adipiscing elit,\n"
-            . "sed do {fg_bright_green}eiusmod tempor{previous} incididunt\n"
+            . "sed do eiusmod tempor incididunt\n"
             . "ut labore et dolore magna aliqua.\n"
             . "Ut enim ad minim veniam, quis\n"
             . "nostrud exercitation ullamco laboris\n"
@@ -906,3 +1012,7 @@ $pets = [
 $writer->br();
 $writer->writeLine('Aligned left, with gaps, Types of Pet align right');
 $table_builder->buildTable($pets, $table_style, $table_cols);
+
+
+
+

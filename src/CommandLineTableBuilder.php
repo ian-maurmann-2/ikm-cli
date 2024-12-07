@@ -288,7 +288,15 @@ class CommandLineTableBuilder
                 $cell_lines_clean     = str_replace($escapes, "", $cell_lines);// Remove escapes
 
 
+
+
                 $cell_lines_clean = str_replace('{previous}','', $cell_lines_clean);
+
+                $cell_lines_clean = str_replace('{bold}',       '', $cell_lines_clean);
+                $cell_lines_clean = str_replace('{dim}',        '', $cell_lines_clean);
+                $cell_lines_clean = str_replace('{italic}',     '', $cell_lines_clean);
+                $cell_lines_clean = str_replace('{underline}', '', $cell_lines_clean);
+                $cell_lines_clean = str_replace('{blinking}',   '', $cell_lines_clean);
 
                 $cell_lines_clean = str_replace('{fg_dark_black}',   '', $cell_lines_clean);
                 $cell_lines_clean = str_replace('{fg_dark_red}',     '', $cell_lines_clean);
@@ -526,8 +534,14 @@ class CommandLineTableBuilder
 
 
 
-                    $format->setPrevious($cell_styling);
-                    $cell_sub_line_text = str_replace('{previous}',$format->previous, $cell_sub_line_text);
+                    $format->setPrevious($format->reset . $cell_styling);
+                    $cell_sub_line_text = str_replace('{previous}', $format->previous, $cell_sub_line_text);
+
+                    $cell_sub_line_text = str_replace('{bold}',      $format->bold, $cell_sub_line_text);
+                    $cell_sub_line_text = str_replace('{dim}',       $format->dim, $cell_sub_line_text);
+                    $cell_sub_line_text = str_replace('{italic}',    $format->italic, $cell_sub_line_text);
+                    $cell_sub_line_text = str_replace('{underline}', $format->underline, $cell_sub_line_text);
+                    $cell_sub_line_text = str_replace('{blink}',     $format->blink, $cell_sub_line_text);
 
                     $cell_sub_line_text = str_replace('{fg_dark_black}',   $format->fg_dark_black, $cell_sub_line_text);
                     $cell_sub_line_text = str_replace('{fg_dark_red}',     $format->fg_dark_red, $cell_sub_line_text);
@@ -564,9 +578,6 @@ class CommandLineTableBuilder
                     $cell_sub_line_text = str_replace('{bg_bright_magenta}', $format->bg_bright_magenta, $cell_sub_line_text);
                     $cell_sub_line_text = str_replace('{bg_bright_cyan}',    $format->bg_bright_cyan, $cell_sub_line_text);
                     $cell_sub_line_text = str_replace('{bg_bright_white}',   $format->bg_bright_white, $cell_sub_line_text);
-
-
-                    
 
                     // Line
                     $line = $this->string_utility->mb_str_pad($cell_sub_line_text, $col_lengths[$col_index], ' ', $cell_text_pad_direction);
