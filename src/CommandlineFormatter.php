@@ -27,6 +27,12 @@ namespace IKM\CLI;
  */
 class CommandLineFormatter
 {
+    // Escape
+    public string $escape = "\033";
+
+    // Control Sequence Introducer
+    public string $csi = "\033[";
+
     // Reset
     public string $reset = "\033[0m";
 

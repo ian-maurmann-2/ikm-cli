@@ -286,8 +286,50 @@ class CommandLineTableBuilder
                 $cell_height          = mb_substr_count($cell_text, "\n");
                 $escapes              = $this->string_utility->getCliFormattingEscapes();
                 $cell_lines_clean     = str_replace($escapes, "", $cell_lines);// Remove escapes
+
+
+                $cell_lines_clean = str_replace('{previous}','', $cell_lines_clean);
+
+                $cell_lines_clean = str_replace('{fg_dark_black}',   '', $cell_lines_clean);
+                $cell_lines_clean = str_replace('{fg_dark_red}',     '', $cell_lines_clean);
+                $cell_lines_clean = str_replace('{fg_dark_green}',   '', $cell_lines_clean);
+                $cell_lines_clean = str_replace('{fg_dark_yellow}',  '', $cell_lines_clean);
+                $cell_lines_clean = str_replace('{fg_dark_blue}',    '', $cell_lines_clean);
+                $cell_lines_clean = str_replace('{fg_dark_magenta}', '', $cell_lines_clean);
+                $cell_lines_clean = str_replace('{fg_dark_cyan}',    '', $cell_lines_clean);
+                $cell_lines_clean = str_replace('{fg_dark_white}',   '', $cell_lines_clean);
+
+                $cell_lines_clean = str_replace('{fg_bright_black}',   '', $cell_lines_clean);
+                $cell_lines_clean = str_replace('{fg_bright_red}',     '', $cell_lines_clean);
+                $cell_lines_clean = str_replace('{fg_bright_green}',   '', $cell_lines_clean);
+                $cell_lines_clean = str_replace('{fg_bright_yellow}',  '', $cell_lines_clean);
+                $cell_lines_clean = str_replace('{fg_bright_blue}',    '', $cell_lines_clean);
+                $cell_lines_clean = str_replace('{fg_bright_magenta}', '', $cell_lines_clean);
+                $cell_lines_clean = str_replace('{fg_bright_cyan}',    '', $cell_lines_clean);
+                $cell_lines_clean = str_replace('{fg_bright_white}',   '', $cell_lines_clean);
+
+                $cell_lines_clean = str_replace('{bg_dark_black}',   '', $cell_lines_clean);
+                $cell_lines_clean = str_replace('{bg_dark_red}',     '', $cell_lines_clean);
+                $cell_lines_clean = str_replace('{bg_dark_green}',   '', $cell_lines_clean);
+                $cell_lines_clean = str_replace('{bg_dark_yellow}',  '', $cell_lines_clean);
+                $cell_lines_clean = str_replace('{bg_dark_blue}',    '', $cell_lines_clean);
+                $cell_lines_clean = str_replace('{bg_dark_magenta}', '', $cell_lines_clean);
+                $cell_lines_clean = str_replace('{bg_dark_cyan}',    '', $cell_lines_clean);
+                $cell_lines_clean = str_replace('{bg_dark_white}',   '', $cell_lines_clean);
+
+                $cell_lines_clean = str_replace('{bg_bright_black}',   '', $cell_lines_clean);
+                $cell_lines_clean = str_replace('{bg_bright_red}',     '', $cell_lines_clean);
+                $cell_lines_clean = str_replace('{bg_bright_green}',   '', $cell_lines_clean);
+                $cell_lines_clean = str_replace('{bg_bright_yellow}',  '', $cell_lines_clean);
+                $cell_lines_clean = str_replace('{bg_bright_blue}',    '', $cell_lines_clean);
+                $cell_lines_clean = str_replace('{bg_bright_magenta}', '', $cell_lines_clean);
+                $cell_lines_clean = str_replace('{bg_bright_cyan}',    '', $cell_lines_clean);
+                $cell_lines_clean = str_replace('{bg_bright_white}',   '', $cell_lines_clean);
+
+
                 $cell_lines_clean     = str_replace(["\n", '{', '}'], "", $cell_lines_clean);// Remove braces
                 $cell_lines_clean     = str_replace("\t",'    ', $cell_lines_clean); // Replace tabs with 4 spaces
+
                 $cell_max_line_length = max(array_map('grapheme_strlen', $cell_lines_clean));
 
                 // Update col size if needed
@@ -482,6 +524,50 @@ class CommandLineTableBuilder
                     // Tabs
                     $cell_sub_line_text = str_replace("\t",'    ', $cell_sub_line_text);
 
+
+
+                    $format->setPrevious($cell_styling);
+                    $cell_sub_line_text = str_replace('{previous}',$format->previous, $cell_sub_line_text);
+
+                    $cell_sub_line_text = str_replace('{fg_dark_black}',   $format->fg_dark_black, $cell_sub_line_text);
+                    $cell_sub_line_text = str_replace('{fg_dark_red}',     $format->fg_dark_red, $cell_sub_line_text);
+                    $cell_sub_line_text = str_replace('{fg_dark_green}',   $format->fg_dark_green, $cell_sub_line_text);
+                    $cell_sub_line_text = str_replace('{fg_dark_yellow}',  $format->fg_dark_yellow, $cell_sub_line_text);
+                    $cell_sub_line_text = str_replace('{fg_dark_blue}',    $format->fg_dark_blue, $cell_sub_line_text);
+                    $cell_sub_line_text = str_replace('{fg_dark_magenta}', $format->fg_dark_magenta, $cell_sub_line_text);
+                    $cell_sub_line_text = str_replace('{fg_dark_cyan}',    $format->fg_dark_cyan, $cell_sub_line_text);
+                    $cell_sub_line_text = str_replace('{fg_dark_white}',   $format->fg_dark_white, $cell_sub_line_text);
+
+                    $cell_sub_line_text = str_replace('{fg_bright_black}',   $format->fg_bright_black, $cell_sub_line_text);
+                    $cell_sub_line_text = str_replace('{fg_bright_red}',     $format->fg_bright_red, $cell_sub_line_text);
+                    $cell_sub_line_text = str_replace('{fg_bright_green}',   $format->fg_bright_green, $cell_sub_line_text);
+                    $cell_sub_line_text = str_replace('{fg_bright_yellow}',  $format->fg_bright_yellow, $cell_sub_line_text);
+                    $cell_sub_line_text = str_replace('{fg_bright_blue}',    $format->fg_bright_blue, $cell_sub_line_text);
+                    $cell_sub_line_text = str_replace('{fg_bright_magenta}', $format->fg_bright_magenta, $cell_sub_line_text);
+                    $cell_sub_line_text = str_replace('{fg_bright_cyan}',    $format->fg_bright_cyan, $cell_sub_line_text);
+                    $cell_sub_line_text = str_replace('{fg_bright_white}',   $format->fg_bright_white, $cell_sub_line_text);
+
+                    $cell_sub_line_text = str_replace('{bg_dark_black}',   $format->bg_dark_black, $cell_sub_line_text);
+                    $cell_sub_line_text = str_replace('{bg_dark_red}',     $format->bg_dark_red, $cell_sub_line_text);
+                    $cell_sub_line_text = str_replace('{bg_dark_green}',   $format->bg_dark_green, $cell_sub_line_text);
+                    $cell_sub_line_text = str_replace('{bg_dark_yellow}',  $format->bg_dark_yellow, $cell_sub_line_text);
+                    $cell_sub_line_text = str_replace('{bg_dark_blue}',    $format->bg_dark_blue, $cell_sub_line_text);
+                    $cell_sub_line_text = str_replace('{bg_dark_magenta}', $format->bg_dark_magenta, $cell_sub_line_text);
+                    $cell_sub_line_text = str_replace('{bg_dark_cyan}',    $format->bg_dark_cyan, $cell_sub_line_text);
+                    $cell_sub_line_text = str_replace('{bg_dark_white}',   $format->bg_dark_white, $cell_sub_line_text);
+
+                    $cell_sub_line_text = str_replace('{bg_bright_black}',   $format->bg_bright_black, $cell_sub_line_text);
+                    $cell_sub_line_text = str_replace('{bg_bright_red}',     $format->bg_bright_red, $cell_sub_line_text);
+                    $cell_sub_line_text = str_replace('{bg_bright_green}',   $format->bg_bright_green, $cell_sub_line_text);
+                    $cell_sub_line_text = str_replace('{bg_bright_yellow}',  $format->bg_bright_yellow, $cell_sub_line_text);
+                    $cell_sub_line_text = str_replace('{bg_bright_blue}',    $format->bg_bright_blue, $cell_sub_line_text);
+                    $cell_sub_line_text = str_replace('{bg_bright_magenta}', $format->bg_bright_magenta, $cell_sub_line_text);
+                    $cell_sub_line_text = str_replace('{bg_bright_cyan}',    $format->bg_bright_cyan, $cell_sub_line_text);
+                    $cell_sub_line_text = str_replace('{bg_bright_white}',   $format->bg_bright_white, $cell_sub_line_text);
+
+
+                    
+
                     // Line
                     $line = $this->string_utility->mb_str_pad($cell_sub_line_text, $col_lengths[$col_index], ' ', $cell_text_pad_direction);
 
@@ -491,6 +577,11 @@ class CommandLineTableBuilder
                     }
 
                     //$line = str_repeat('X', $col_lengths[$col_index]);
+
+                    $cell_sub_line_text = str_replace('{',$format->fg_bright_cyan, $cell_sub_line_text);
+                    $cell_sub_line_text = str_replace('}',$format->reset, $cell_sub_line_text);
+
+
 
                     $this->cli_writer->write($cell_styling);
                     $this->cli_writer->write($line);
