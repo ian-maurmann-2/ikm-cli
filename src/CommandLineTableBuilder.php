@@ -335,7 +335,7 @@ class CommandLineTableBuilder
                 $cell_lines_clean = str_replace('{bg_bright_white}',   '', $cell_lines_clean);
 
 
-                $cell_lines_clean     = str_replace(["\n", '{', '}'], "", $cell_lines_clean);// Remove braces
+                //$cell_lines_clean     = str_replace(["\n", '{', '}'], "", $cell_lines_clean);// Remove braces
                 $cell_lines_clean     = str_replace("\t",'    ', $cell_lines_clean); // Replace tabs with 4 spaces
 
                 $cell_max_line_length = max(array_map('grapheme_strlen', $cell_lines_clean));
@@ -589,8 +589,8 @@ class CommandLineTableBuilder
 
                     //$line = str_repeat('X', $col_lengths[$col_index]);
 
-                    $cell_sub_line_text = str_replace('{',$format->fg_bright_cyan, $cell_sub_line_text);
-                    $cell_sub_line_text = str_replace('}',$format->reset, $cell_sub_line_text);
+                    //$cell_sub_line_text = str_replace('{',$format->fg_bright_cyan, $cell_sub_line_text);
+                    //$cell_sub_line_text = str_replace('}',$format->reset, $cell_sub_line_text);
 
 
 
