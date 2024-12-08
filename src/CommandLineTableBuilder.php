@@ -409,16 +409,6 @@ class CommandLineTableBuilder
         }
         $border_styling = $border_bg_color . $border_fg_color;
 
-        // Cell color
-        $cell_fg_color = '';
-        $cell_bg_color = '';
-        if($has_table_config) {
-            $cell_fg_color_name = $table_config['table_cell_fg_color'] ?? '';
-            $cell_bg_color_name = $table_config['table_cell_bg_color'] ?? '';
-            $cell_fg_color = $this->nameToFgColor($cell_fg_color_name);
-            $cell_bg_color = $this->nameToBgColor($cell_bg_color_name);
-        }
-        $cell_styling = $cell_bg_color . $cell_fg_color;
 
         // ------------------------------------------------
         // ------------------------------------------------
@@ -509,7 +499,21 @@ class CommandLineTableBuilder
                         $this->cli_writer->write($format->reset);
                     }
 
-                    // Text
+                    // Table Cell color
+                    $cell_fg_color = '';
+                    $cell_bg_color = '';
+                    if($has_table_config) {
+                        $cell_fg_color_name = $table_config['table_cell_fg_color'] ?? '';
+                        $cell_bg_color_name = $table_config['table_cell_bg_color'] ?? '';
+                        $cell_fg_color = $this->nameToFgColor($cell_fg_color_name);
+                        $cell_bg_color = $this->nameToBgColor($cell_bg_color_name);
+                    }
+
+                    // Table Cell weight
+                    $cell_weight_name = '';
+
+
+                    // Cell Text
                     // ====================================================================
                     $cell_text_lines             = $cell_data['value'];
                     $has_column_alignment        = isset($cell_data['text_align']) && !empty($cell_data['text_align']);
@@ -518,11 +522,28 @@ class CommandLineTableBuilder
                     $cell_text_pad_direction     = $has_column_alignment ? $column_text_pad_direction : $table_text_pad_direction;
                     // ====================================================================
 
+
+                    // Head
                     if($is_row_in_table_head){
+
+                        // Head color
+                        if($has_table_config) {
+                            $cell_fg_color_name = $table_config['table_head_fg_color'] ?? '';
+                            $cell_bg_color_name = $table_config['table_head_bg_color'] ?? '';
+                            $cell_fg_color = $this->nameToFgColor($cell_fg_color_name);
+                            $cell_bg_color = $this->nameToBgColor($cell_bg_color_name);
+                        }
+
+                        // Head alignment
                         $has_column_head_alignment      = isset($cell_data['head_text_align']) && !empty($cell_data['head_text_align']);
                         $column_head_alignment_string   = $has_column_head_alignment ? $cell_data['head_text_align'] : '';
                         $column_head_text_pad_direction = $has_column_head_alignment ? $this->string_utility->alignmentToPaddingDirection($column_head_alignment_string ?? 'center') : STR_PAD_BOTH;
                         $cell_text_pad_direction        = $has_column_head_alignment ? $column_head_text_pad_direction : $table_head_text_pad_direction;
+
+                        // Head weight
+                        if($has_table_config) {
+                            $cell_weight_name = $table_config['table_head_weight'] ?? '';
+                        }
                     }
 
                     // Text
@@ -532,7 +553,15 @@ class CommandLineTableBuilder
                     // Tabs
                     $cell_sub_line_text = str_replace("\t",'    ', $cell_sub_line_text);
 
+                    // Weight
+                    $cell_weight = '';
+                    $is_cell_weight_bold = $cell_weight_name === 'bold';
+                    if($is_cell_weight_bold){
+                        $cell_weight = $format->bold;
+                    }
 
+                    // Styling
+                    $cell_styling = $cell_bg_color . $cell_fg_color . $cell_weight;
 
                     $format->setPrevious($format->reset . $cell_styling);
                     $cell_sub_line_text = str_replace('{previous}', $format->previous, $cell_sub_line_text);
