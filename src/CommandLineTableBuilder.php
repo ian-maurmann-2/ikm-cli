@@ -295,8 +295,8 @@ class CommandLineTableBuilder
                 $cell_lines_clean = str_replace('{bold}',       '', $cell_lines_clean);
                 $cell_lines_clean = str_replace('{dim}',        '', $cell_lines_clean);
                 $cell_lines_clean = str_replace('{italic}',     '', $cell_lines_clean);
-                $cell_lines_clean = str_replace('{underline}', '', $cell_lines_clean);
-                $cell_lines_clean = str_replace('{blinking}',   '', $cell_lines_clean);
+                $cell_lines_clean = str_replace('{underline}',  '', $cell_lines_clean);
+                $cell_lines_clean = str_replace('{blink}',      '', $cell_lines_clean);
 
                 $cell_lines_clean = str_replace('{fg_dark_black}',   '', $cell_lines_clean);
                 $cell_lines_clean = str_replace('{fg_dark_red}',     '', $cell_lines_clean);
