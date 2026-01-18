@@ -16,7 +16,7 @@
         "psr-4": {
             "IKM\\CLI\\": [
                 "src/",
-                "src/utilities"
+                "src/utilities/"
             ]
         }
     }

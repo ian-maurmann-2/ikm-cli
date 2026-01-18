@@ -1,6 +1,6 @@
 <?php
 # =======================================
-# Copyright (c) 2024 Ian K Maurmann.
+# Copyright (c) 2024-2026 Ian K Maurmann.
 # Released under the MIT License.
 # =======================================
 
